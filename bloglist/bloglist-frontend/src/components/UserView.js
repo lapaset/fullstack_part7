@@ -18,8 +18,7 @@ const UserView = ({ user, handleLogout, createBlog, createFormRef, addLike, dele
         buttonLabel={'new note'} 
         closeButtonLabel={'cancel'}
         ref={createFormRef} >
-          <CreateBlogForm
-            createBlog={createBlog} />
+          <CreateBlogForm />
       </Togglable>
     )
 

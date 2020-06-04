@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import UserView from './components/UserView'
 import LoginForm from './components/LoginForm'
 import ErrorField from './components/ErrorField'
@@ -12,8 +12,6 @@ import { initBlogs } from './reducers/blogReducer'
 const App = () => {
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
-
-  const notification = useSelector(s => s.notification)
 
   const dispatch = useDispatch()
 
@@ -39,11 +37,6 @@ const App = () => {
     }, 5000)
   }
 
-  const displayNotification = message => {
-    setNotification(message)
-  }
-
-
   const handleLogin = async userObject => {
     try {
       const user = await loginService.login(userObject)
@@ -53,7 +46,7 @@ const App = () => {
       )
       setUser(user)
       blogService.setToken(user.token)
-      displayNotification(`Logged in as ${user.username}`)
+      dispatch(setNotification(`Logged in as ${user.username}`))
 
     } catch {
       displayError('Invalid username or password')
@@ -65,16 +58,18 @@ const App = () => {
 
     window.localStorage.removeItem('loggedBloglistUser')
     setUser(null)
-    displayNotification('Logged out')
+    dispatch(setNotification('Logged out'))
   }
 
   const createFormRef = React.createRef()
 
+  
+  /* notifications need to be handled
   const addBlog = async (blogObject) => {
     createFormRef.current.toggleVisibility()
     try {
       await blogService.createBlog(blogObject)
-      displayNotification(`A new blog ${blogObject.title} by ${blogObject.author} added`)
+      dispatch(setNotification(`A new blog ${blogObject.title} by ${blogObject.author} added`))
 
     } catch (exception) {
       const error = exception.response.data.error
@@ -88,8 +83,10 @@ const App = () => {
       else
         displayError(error)
     }
-  }
+  }*/
 
+
+  //needs to be redux
   const addLike = async (id, blogObject) => {
     try {
       await blogService.updateBlog(id, blogObject)
@@ -99,10 +96,11 @@ const App = () => {
     }
   }
 
+  //needs to be redux
   const deleteBlog = async (id) => {
     try {
       await blogService.deleteBlog(id)
-      displayNotification('blog was removed')
+      dispatch(setNotification('blog was removed'))
     } catch (exception) {
       setErrorMessage('failed to delete blog')
       console.log(exception)
@@ -118,9 +116,7 @@ const App = () => {
         message={errorMessage}
       />
 
-      <NotificationField
-        message={notification}
-      />
+      <NotificationField />
 
       {user === null
         ? <LoginForm
@@ -129,7 +125,6 @@ const App = () => {
         : <UserView
             user={user}
             handleLogout={handleLogout}
-            createBlog={addBlog}
             createFormRef={createFormRef}
             addLike={addLike}
             deleteBlog={deleteBlog}   
