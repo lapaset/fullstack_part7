@@ -5,17 +5,21 @@ import ErrorField from './components/ErrorField'
 import NotificationField from './components/NotificationField'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import { setNotification } from './reducers/notificationReducer'
+import store from './store'
+
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
-  const [notification, setNotification] = useState(null)
+
+  const notification = store.getState()
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
+    blogService.getAll().then(blogs => {
       setBlogs( blogs )
-    )  
+    })  
   }, [])
 
   useEffect(() => {
@@ -29,7 +33,7 @@ const App = () => {
   }, [])
 
   const displayError = message => {
-    setNotification(null)
+    store.dispatch(setNotification(null))
     setErrorMessage(message)
     setTimeout(() => {
       setErrorMessage(null)
@@ -38,9 +42,10 @@ const App = () => {
 
   const displayNotification = message => {
     setErrorMessage(null)
-    setNotification(message)
+    store.dispatch(setNotification(message))
+    console.log('notification should be set', message, 'in reality', notification)
     setTimeout(() => {
-      setNotification(null)
+      store.dispatch(setNotification(null))
     }, 5000)
   }
 
@@ -116,6 +121,7 @@ const App = () => {
   const deleteBlog = async (id) => {
     try {
       await blogService.deleteBlog(id)
+      displayNotification('blog was removed')
     } catch (exception) {
       setErrorMessage('failed to delete blog')
       console.log(exception)
@@ -128,6 +134,7 @@ const App = () => {
     <main>
       <h1>Bloglist</h1>
 
+      {console.log('rendering start')}
       <ErrorField
         message={errorMessage}
       />
@@ -150,7 +157,7 @@ const App = () => {
             deleteBlog={deleteBlog}   
           />
       }
-
+      {console.log('rendering end')}
     </main>
   )
 }
