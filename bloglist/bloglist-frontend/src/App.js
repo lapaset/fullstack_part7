@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import UserView from './components/UserView'
 import LoginForm from './components/LoginForm'
 import ErrorField from './components/ErrorField'
@@ -6,21 +7,19 @@ import NotificationField from './components/NotificationField'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import { setNotification } from './reducers/notificationReducer'
-import store from './store'
-
+import { initBlogs } from './reducers/blogReducer'
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
 
-  const notification = store.getState()
+  const notification = useSelector(s => s.notification)
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
-    blogService.getAll().then(blogs => {
-      setBlogs( blogs )
-    })  
-  }, [])
+    dispatch(initBlogs()) 
+  }, [dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
@@ -33,7 +32,7 @@ const App = () => {
   }, [])
 
   const displayError = message => {
-    store.dispatch(setNotification(null))
+    setNotification(null)
     setErrorMessage(message)
     setTimeout(() => {
       setErrorMessage(null)
@@ -41,23 +40,9 @@ const App = () => {
   }
 
   const displayNotification = message => {
-    setErrorMessage(null)
-    store.dispatch(setNotification(message))
-    console.log('notification should be set', message, 'in reality', notification)
-    setTimeout(() => {
-      store.dispatch(setNotification(null))
-    }, 5000)
+    setNotification(message)
   }
 
-  const refreshBlogs = async () => {
-    try {
-      const blogs = await blogService.getAll()
-      setBlogs( blogs )
-
-    } catch (exception) {
-      setErrorMessage('could not fetch blogs') 
-    }
-  }
 
   const handleLogin = async userObject => {
     try {
@@ -103,8 +88,6 @@ const App = () => {
       else
         displayError(error)
     }
-    
-    refreshBlogs()
   }
 
   const addLike = async (id, blogObject) => {
@@ -114,8 +97,6 @@ const App = () => {
       setErrorMessage('failed to like')
       console.log(exception)
     }
-
-    refreshBlogs()
   }
 
   const deleteBlog = async (id) => {
@@ -126,8 +107,6 @@ const App = () => {
       setErrorMessage('failed to delete blog')
       console.log(exception)
     }
-
-    refreshBlogs()
   }
 
   return (
@@ -150,7 +129,6 @@ const App = () => {
         : <UserView
             user={user}
             handleLogout={handleLogout}
-            blogs={blogs}
             createBlog={addBlog}
             createFormRef={createFormRef}
             addLike={addLike}
