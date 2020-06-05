@@ -7,11 +7,11 @@ import NotificationField from './components/NotificationField'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import { setNotification } from './reducers/notificationReducer'
+import { setErrorMessage } from './reducers/errorMessageReducer'
 import { initBlogs } from './reducers/blogReducer'
 
 const App = () => {
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
 
   const dispatch = useDispatch()
 
@@ -29,14 +29,6 @@ const App = () => {
     }
   }, [])
 
-  const displayError = message => {
-    setNotification(null)
-    setErrorMessage(message)
-    setTimeout(() => {
-      setErrorMessage(null)
-    }, 5000)
-  }
-
   const handleLogin = async userObject => {
     try {
       const user = await loginService.login(userObject)
@@ -49,7 +41,7 @@ const App = () => {
       dispatch(setNotification(`Logged in as ${user.username}`))
 
     } catch {
-      displayError('Invalid username or password')
+      dispatch(setErrorMessage('Invalid username or password'))
     }
   }
   
@@ -63,35 +55,12 @@ const App = () => {
 
   const createFormRef = React.createRef()
 
-  
-  /* notifications need to be handled
-  const addBlog = async (blogObject) => {
-    createFormRef.current.toggleVisibility()
-    try {
-      await blogService.createBlog(blogObject)
-      dispatch(setNotification(`A new blog ${blogObject.title} by ${blogObject.author} added`))
-
-    } catch (exception) {
-      const error = exception.response.data.error
-
-      if (error.includes('`title` is required') && error.includes('`url` is required'))
-        displayError('title and url are missing')
-      else if (error.includes('`title` is required'))
-        displayError('title is missing')
-      else if (error.includes('`url` is required'))
-        displayError('url is missing')
-      else
-        displayError(error)
-    }
-  }*/
-
-
   //needs to be redux
   const addLike = async (id, blogObject) => {
     try {
       await blogService.updateBlog(id, blogObject)
     } catch (exception) {
-      setErrorMessage('failed to like')
+      dispatch(setErrorMessage('failed to like'))
       console.log(exception)
     }
   }
@@ -102,7 +71,7 @@ const App = () => {
       await blogService.deleteBlog(id)
       dispatch(setNotification('blog was removed'))
     } catch (exception) {
-      setErrorMessage('failed to delete blog')
+      dispatch(setErrorMessage('failed to delete blog'))
       console.log(exception)
     }
   }
@@ -112,10 +81,7 @@ const App = () => {
       <h1>Bloglist</h1>
 
       {console.log('rendering start')}
-      <ErrorField
-        message={errorMessage}
-      />
-
+      <ErrorField />
       <NotificationField />
 
       {user === null

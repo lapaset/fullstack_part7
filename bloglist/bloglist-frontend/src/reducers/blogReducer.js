@@ -1,5 +1,6 @@
 import blogService from '../services/blogs'
 import { setNotification } from '../reducers/notificationReducer'
+import { setErrorMessage } from '../reducers/errorMessageReducer'
 
 const blogReducer = (state = [], action) => {
   switch (action.type) {
@@ -23,7 +24,6 @@ export const initBlogs = () => {
 }
 
 export const addBlog = blog => {
-  const displayError = error => console.log(error)
 
   return async dispatch => {
     try {
@@ -36,15 +36,15 @@ export const addBlog = blog => {
       dispatch(setNotification(`A new blog ${blog.title} by ${blog.author} added`))
     } catch (e) {
       const error = e.response.data.error
-
+      
       if (error.includes('`title` is required') && error.includes('`url` is required'))
-        displayError('title and url are missing')
+        dispatch(setErrorMessage('title and url are missing'))
       else if (error.includes('`title` is required'))
-        displayError('title is missing')
+        dispatch(setErrorMessage('title is missing'))
       else if (error.includes('`url` is required'))
-        displayError('url is missing')
+        dispatch(setErrorMessage('url is missing'))
       else
-        displayError(error)
+        dispatch(setErrorMessage(error))
     }
   }
 }
