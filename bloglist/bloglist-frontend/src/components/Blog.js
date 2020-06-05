@@ -1,17 +1,8 @@
 import React from 'react'
 import Togglable from './Togglable'
 
-const Blog = ({ blog, addLike, deleteBlog, user }) => {
 
-  const handleLike = () => {
-    addLike(blog.id, {
-      likes: ++blog.likes,
-      author: blog.author,
-      title: blog.title,
-      url: blog.url,
-      user: blog.user,
-    })
-  }
+const Blog = ({ blog, handleLike, deleteBlog, user }) => {
 
   const handleDelete = () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`))

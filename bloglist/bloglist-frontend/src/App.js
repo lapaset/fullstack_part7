@@ -92,7 +92,6 @@ const App = () => {
             user={user}
             handleLogout={handleLogout}
             createFormRef={createFormRef}
-            addLike={addLike}
             deleteBlog={deleteBlog}   
           />
       }
