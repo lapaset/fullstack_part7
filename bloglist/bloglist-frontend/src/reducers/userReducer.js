@@ -25,7 +25,7 @@ export const loginUser = user => {
       })
 
       window.localStorage.setItem('loggedBloglistUser', JSON.stringify(user))
-      blogService.setToken(user.token)
+      blogService.setToken(newUser.token)
 
       dispatch(setNotification(`Logged in as ${user.username}`))
   

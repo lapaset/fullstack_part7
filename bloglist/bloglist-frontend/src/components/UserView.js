@@ -4,7 +4,7 @@ import CreateBlogForm from './CreateBlogForm'
 import Togglable from './Togglable'
 import UserHeader from './UserHeader'
 
-const UserView = ({ user, handleLogout, createFormRef }) => {
+const UserView = ({ user, createFormRef }) => {
 
     const createForm = () => (
       <Togglable

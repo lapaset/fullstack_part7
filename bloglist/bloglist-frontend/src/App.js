@@ -21,10 +21,10 @@ const App = () => {
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
     if (loggedUserJSON) {
-      const user = JSON.parse(loggedUserJSON)
-      dispatch(loginUser(user))
-      blogService.setToken(user.token)
-      console.log('user set at restart:', user)
+      const userToLogIn = JSON.parse(loggedUserJSON)
+      dispatch(loginUser(userToLogIn))
+      blogService.setToken(userToLogIn.token)
+      console.log('user set at restart:', userToLogIn)
     }
   }, [dispatch])
   
