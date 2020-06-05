@@ -1,17 +1,16 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import UserView from './components/UserView'
 import LoginForm from './components/LoginForm'
 import ErrorField from './components/ErrorField'
 import NotificationField from './components/NotificationField'
 import blogService from './services/blogs'
-import loginService from './services/login'
 import { setNotification } from './reducers/notificationReducer'
-import { setErrorMessage } from './reducers/errorMessageReducer'
 import { initBlogs } from './reducers/blogReducer'
+import { loginUser, logoutUser } from './reducers/userReducer'
 
 const App = () => {
-  const [user, setUser] = useState(null)
+  const user = useSelector(s => s.user)
 
   const dispatch = useDispatch()
 
@@ -23,33 +22,17 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      setUser(user)
+      dispatch(loginUser(user))
       blogService.setToken(user.token)
       console.log('user set at restart:', user)
     }
-  }, [])
-
-  const handleLogin = async userObject => {
-    try {
-      const user = await loginService.login(userObject)
-
-      window.localStorage.setItem(
-        'loggedBloglistUser', JSON.stringify(user)
-      )
-      setUser(user)
-      blogService.setToken(user.token)
-      dispatch(setNotification(`Logged in as ${user.username}`))
-
-    } catch {
-      dispatch(setErrorMessage('Invalid username or password'))
-    }
-  }
+  }, [dispatch])
   
   const handleLogout = async event => {
     event.preventDefault()
 
     window.localStorage.removeItem('loggedBloglistUser')
-    setUser(null)
+    dispatch(logoutUser())
     dispatch(setNotification('Logged out'))
   }
 
@@ -64,9 +47,7 @@ const App = () => {
       <NotificationField />
 
       {user === null
-        ? <LoginForm
-            handleLogin={handleLogin}
-          />
+        ? <LoginForm />
         : <UserView
             user={user}
             handleLogout={handleLogout}

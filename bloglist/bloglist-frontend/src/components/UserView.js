@@ -2,13 +2,7 @@ import React from 'react'
 import ListOfBlogs from './ListOfBlogs'
 import CreateBlogForm from './CreateBlogForm'
 import Togglable from './Togglable'
-
-const UserHeader = ({ user, handleLogout }) => (
-  <header>
-    Logged in as {user.name}
-    <button onClick={handleLogout}>Log out</button>
-  </header>
-)
+import UserHeader from './UserHeader'
 
 const UserView = ({ user, handleLogout, createFormRef }) => {
 
@@ -25,8 +19,7 @@ const UserView = ({ user, handleLogout, createFormRef }) => {
     return (
     <div>
       <UserHeader
-        user={user}
-        handleLogout={handleLogout} />
+        user={user} />
 
       {createForm()}
       
