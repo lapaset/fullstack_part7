@@ -30,6 +30,7 @@ const blogReducer = (state = [], action) => {
 export const initBlogs = () => {
   return async dispatch => {
     const blogs = await blogService.getAll()
+
     dispatch({
       type: 'INIT',
       blogs
@@ -38,15 +39,15 @@ export const initBlogs = () => {
 }
 
 export const addBlog = blog => {
-
   return async dispatch => {
     try {
       const newBlog = await blogService.createBlog(blog)
-      console.log('newBlog', newBlog)
+
       dispatch({
         type: 'ADD',
         newBlog
       })
+
       dispatch(setNotification(`A new blog ${blog.title} by ${blog.author} added`))
     } catch (e) {
       const error = e.response.data.error
@@ -64,7 +65,6 @@ export const addBlog = blog => {
 }
 
 export const likeBlog = blog => {
-  console.log('blog at likeBlog', blog)
   return async dispatch => {
     try {
       const updatedBlog = await blogService.updateBlog({
@@ -77,7 +77,24 @@ export const likeBlog = blog => {
         blog: updatedBlog
       })
 
-      dispatch(setNotification(`Liked ${blog.title}`))
+      dispatch(setNotification(`Liked blog ${blog.title}`))
+    } catch (error) {
+      console.log(error)
+    }
+  }
+}
+
+export const deleteBlog = blog => {
+  return async dispatch => {
+    try {
+      await blogService.deleteBlog(blog.id)
+
+      dispatch({
+        type: 'DELETE',
+        blog
+      })
+      
+      dispatch(setNotification(`Blog ${blog.title} was removed`))
     } catch (error) {
       console.log(error)
     }

@@ -55,27 +55,6 @@ const App = () => {
 
   const createFormRef = React.createRef()
 
-  //needs to be redux
-  const addLike = async (id, blogObject) => {
-    try {
-      await blogService.updateBlog(id, blogObject)
-    } catch (exception) {
-      dispatch(setErrorMessage('failed to like'))
-      console.log(exception)
-    }
-  }
-
-  //needs to be redux
-  const deleteBlog = async (id) => {
-    try {
-      await blogService.deleteBlog(id)
-      dispatch(setNotification('blog was removed'))
-    } catch (exception) {
-      dispatch(setErrorMessage('failed to delete blog'))
-      console.log(exception)
-    }
-  }
-
   return (
     <main>
       <h1>Bloglist</h1>
@@ -91,8 +70,7 @@ const App = () => {
         : <UserView
             user={user}
             handleLogout={handleLogout}
-            createFormRef={createFormRef}
-            deleteBlog={deleteBlog}   
+            createFormRef={createFormRef}  
           />
       }
       {console.log('rendering end')}
