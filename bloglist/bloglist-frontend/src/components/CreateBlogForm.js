@@ -24,6 +24,7 @@ const CreateBlogForm = () => {
       setUrl('')
 
       dispatch(addBlog(blog))
+      
     }
 
     const handleTitleChange = ({ target }) => setTitle(target.value)
