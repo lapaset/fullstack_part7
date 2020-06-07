@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { BrowserRouter as Router,
-  Switch, Route, Link, useParams } from "react-router-dom"
+import { useRouteMatch,
+  Switch, Route, Link } from "react-router-dom"
 
 import BlogView from './components/BlogView'
 import LoginForm from './components/LoginForm'
@@ -9,29 +9,12 @@ import ErrorField from './components/ErrorField'
 import NotificationField from './components/NotificationField'
 import Users from './components/Users'
 import Blog from './components/Blog'
+import User from './components/User'
+import LoginHeader from './components/LoginHeader'
 
 import { initBlogs } from './reducers/blogReducer'
 import { loginUser } from './reducers/loginReducer'
 import { initUsers } from './reducers/usersReducer'
-
-
-const User = ({ users }) => {
-  const id = useParams().id
-  const user = users.find(u => u.id === id)
-
-  return user
-    ? <div>
-        <h2>{user.name}</h2>
-        <h3>added blogs</h3>
-        <ul>
-          {user.blogs.map(b =>
-            <li key={b.id}>
-              <Link to={`/blogs/${b.id}`}>{b.title} by {b.author}</Link>
-            </li>)}
-        </ul>
-      </div>
-    : null
-}
 
 const App = () => {
   const padding = {
@@ -61,12 +44,23 @@ const App = () => {
 
   const createFormRef = React.createRef()
 
+  const blogMatch = useRouteMatch('/blogs/:id')
+  const blog = blogMatch
+    ? store.blogs.find(b => b.id === blogMatch.params.id)
+    : null
+
+  const userMatch = useRouteMatch('/users/:id')
+  const user = userMatch
+    ? store.users.find(u => u.id === userMatch.params.id)
+    : null
+  
+
   return (
-    <Router>
-      
-      <div>
+    <div>
+      <div className="nav">
         <Link style={padding} to="/">blogs</Link>
         <Link style={padding} to="/users">users</Link>
+        <LoginHeader style={padding} user={store.user} />
       </div>
 
       <h1>Bloglist</h1>
@@ -76,26 +70,28 @@ const App = () => {
 
       <Switch>
         <Route path="/blogs/:id">
-          <Blog blogs={store.blogs}/>
+          <Blog blog={blog}/>
         </Route>
         <Route path="/users/:id">
-          <User users={store.users} />
+          <User user={user} />
         </Route>
         <Route path="/users">
           <Users />
         </Route>
+        <Route path="/login">
+          <LoginForm />
+        </Route>
         <Route path="/">
-          {store.user === null
-            ? <LoginForm />
-            : <BlogView
+          {store.user
+            ? <BlogView
                 user={store.user}
                 createFormRef={createFormRef}  
               />
+            : <LoginForm />
           }
         </Route>
       </Switch>
-
-    </Router>
+    </div>
   )
 }
 

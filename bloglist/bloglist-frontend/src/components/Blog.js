@@ -1,10 +1,9 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { likeBlog } from '../reducers/blogReducer'
 
 
-const Blog = ({ blogs }) => {
+const Blog = ({ blog }) => {
 
   /*const handleDelete = () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`))
@@ -19,9 +18,6 @@ const Blog = ({ blogs }) => {
     dispatch(likeBlog(blog))
   }
 
-  const id = useParams().id
-  const blog = blogs.find(b => b.id === id)
-
   const likeButton = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
     return loggedUserJSON
@@ -29,18 +25,16 @@ const Blog = ({ blogs }) => {
     : null
   }
 
-  return blog
-    ? <div>
-        <h2>{blog.title} by {blog.author}</h2>
-        <p>
-          <a href={blog.url} title={blog.title}>{blog.url}</a><br />
-          {blog.likes} likes
-          {likeButton()}<br />
-          added by {blog.user.name}
-        </p>
-      </div>
-    : null
-}
+  return (
+    <div>
+      <h2>{blog.title} by {blog.author}</h2>
+      <p>
+        <a href={blog.url} title={blog.title}>{blog.url}</a><br />
+        {blog.likes} likes
+        {likeButton()}<br />
+        added by {blog.user.name}
+      </p>
+    </div>
+)}
 
 export default Blog
-

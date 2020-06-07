@@ -16,7 +16,7 @@
 li {
   border-style: solid;
   border-width: 1px 0px 0px 0px;
-  padding: 4px 0px;
+  padding: 5px 0px;
 }
 
 ul {
@@ -25,4 +25,13 @@ ul {
 
 thead {
   font-weight: bold;
+}
+
+.nav {
+  padding: 5px;
+  background-color: thistle;
+}
+
+button {
+  margin: 1px 5px;
 }

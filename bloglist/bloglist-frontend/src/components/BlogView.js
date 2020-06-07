@@ -2,14 +2,13 @@ import React from 'react'
 import ListOfBlogs from './ListOfBlogs'
 import CreateBlogForm from './CreateBlogForm'
 import Togglable from './Togglable'
-import LoginHeader from './LoginHeader'
 
 const BlogView = ({ user, createFormRef }) => {
 
     const createForm = () => (
       <Togglable
         buttonId={'new-note-button'}
-        buttonLabel={'new note'} 
+        buttonLabel={'create new'} 
         closeButtonLabel={'cancel'}
         ref={createFormRef} >
           <CreateBlogForm />
@@ -18,9 +17,6 @@ const BlogView = ({ user, createFormRef }) => {
 
     return (
     <div>
-      <LoginHeader
-        user={user} />
-
       {createForm()}
       
       <ListOfBlogs
