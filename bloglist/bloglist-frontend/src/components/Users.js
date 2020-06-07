@@ -2,8 +2,6 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 
-//make this a table with links to blogs
-
 const Users = () => {
   const users = useSelector(s => s.users)
   return (

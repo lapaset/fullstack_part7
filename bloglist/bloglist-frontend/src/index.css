@@ -13,10 +13,10 @@
   padding: 10px;
 }
 
-.blog {
+li {
   border-style: solid;
   border-width: 1px 0px 0px 0px;
-  padding: 2px;
+  padding: 4px 0px;
 }
 
 ul {

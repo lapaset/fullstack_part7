@@ -8,6 +8,7 @@ import LoginForm from './components/LoginForm'
 import ErrorField from './components/ErrorField'
 import NotificationField from './components/NotificationField'
 import Users from './components/Users'
+import Blog from './components/Blog'
 
 import { initBlogs } from './reducers/blogReducer'
 import { loginUser } from './reducers/loginReducer'
@@ -24,14 +25,12 @@ const User = ({ users }) => {
         <h3>added blogs</h3>
         <ul>
           {user.blogs.map(b =>
-            <li key={b.id}>{b.title}</li>)}
+            <li key={b.id}>
+              <Link to={`/blogs/${b.id}`}>{b.title} by {b.author}</Link>
+            </li>)}
         </ul>
       </div>
     : null
-}
-
-const SingleBlog = () => {
-  return <div>Single blog</div>
 }
 
 const App = () => {
@@ -77,7 +76,7 @@ const App = () => {
 
       <Switch>
         <Route path="/blogs/:id">
-          <SingleBlog blogs={store.blogs}/>
+          <Blog blogs={store.blogs}/>
         </Route>
         <Route path="/users/:id">
           <User users={store.users} />

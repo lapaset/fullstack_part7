@@ -2,7 +2,7 @@ import React from 'react'
 import ListOfBlogs from './ListOfBlogs'
 import CreateBlogForm from './CreateBlogForm'
 import Togglable from './Togglable'
-import UserHeader from './UserHeader'
+import LoginHeader from './LoginHeader'
 
 const BlogView = ({ user, createFormRef }) => {
 
@@ -18,7 +18,7 @@ const BlogView = ({ user, createFormRef }) => {
 
     return (
     <div>
-      <UserHeader
+      <LoginHeader
         user={user} />
 
       {createForm()}

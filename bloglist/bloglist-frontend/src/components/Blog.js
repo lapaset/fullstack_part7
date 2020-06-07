@@ -1,42 +1,46 @@
 import React from 'react'
-import Togglable from './Togglable'
+import { useParams } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { likeBlog } from '../reducers/blogReducer'
 
 
-const Blog = ({ blog, handleLike, deleteBlog, user }) => {
+const Blog = ({ blogs }) => {
 
-  const handleDelete = () => {
+  /*const handleDelete = () => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author}?`))
     deleteBlog(blog.id)
   }
 
   const removeButton = () => (
     <button id="remove-blog-button" onClick={handleDelete}>remove</button>
-  )
+  )*/
+  const dispatch = useDispatch()
+  const handleLike = blog => {
+    dispatch(likeBlog(blog))
+  }
 
-  return (
-  <li className="blog">
-    <span className="blogDefaults">{blog.title} {blog.author}</span>
+  const id = useParams().id
+  const blog = blogs.find(b => b.id === id)
 
-    <Togglable
-      buttonId="show-blog-details-button"
-      buttonLabel="view"
-      closeButtonLabel="hide">
+  const likeButton = () => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
+    return loggedUserJSON
+    ? <button onClick={() => handleLike(blog)}>like</button>
+    : null
+  }
+
+  return blog
+    ? <div>
+        <h2>{blog.title} by {blog.author}</h2>
         <p>
-          {blog.url}<br />
-          <span id='likes'>likes: {blog.likes}</span>
-          <button
-            id="like-button"
-            onClick={handleLike}
-            className="likeButton">
-              like
-          </button><br />
-          {blog.user.name}<br />
-          
-          {user.username === blog.user.username && removeButton()}
+          <a href={blog.url} title={blog.title}>{blog.url}</a><br />
+          {blog.likes} likes
+          {likeButton()}<br />
+          added by {blog.user.name}
         </p>
-    </Togglable>
-  </li>
-)}
+      </div>
+    : null
+}
 
 export default Blog
 

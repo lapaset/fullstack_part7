@@ -1,21 +1,18 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import Blog from './Blog'
-import { likeBlog, deleteBlog } from '../reducers/blogReducer'
+import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+//import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 
 const ListOfBlogs = ({ id, user }) => {
 
-  const dispatch = useDispatch()
-
-  const handleLike = blog => {
-    dispatch(likeBlog(blog))
-  }
+  /*const dispatch = useDispatch()
 
   const handleDelete = blog => {
     dispatch(deleteBlog(blog))
-  }
+  }*/
 
   const blogs = useSelector(s => s.blogs)
+  console.log(blogs)
   return (
     <main>
       <h2>Blogs</h2>
@@ -23,12 +20,9 @@ const ListOfBlogs = ({ id, user }) => {
         {blogs
           .sort((a, b) => b.likes - a.likes)
           .map(b =>
-            <Blog
-              key={b.id}
-              blog={b}
-              handleLike={() => handleLike(b)}
-              deleteBlog={() => handleDelete(b)}
-              user={user} />
+            <li key={b.id}>
+              <Link to={`/blogs/${b.id}`}>{b.title} by {b.author}</Link>
+            </li>
           )}
       </ul>
     </main>

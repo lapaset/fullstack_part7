@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { logoutUser } from '../reducers/loginReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
-const UserHeader = ({ user }) => {
+const LoginHeader = ({ user }) => {
   const dispatch = useDispatch()
 
   const handleLogout = event => {
@@ -21,4 +21,4 @@ const UserHeader = ({ user }) => {
   </header>
 )}
 
-export default UserHeader
+export default LoginHeader

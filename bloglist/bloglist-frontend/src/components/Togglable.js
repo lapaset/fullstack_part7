@@ -20,8 +20,8 @@ const Togglable = React.forwardRef((props, ref) => {
         <button id={props.buttonId} onClick={toggleVisibility} className="viewButton">{props.buttonLabel}</button>
       </div>
       <div style={showWhenVisible} className="togglableContent">
-        <button onClick={toggleVisibility} className="hideButton">{props.closeButtonLabel}</button>
         {props.children}
+        <button onClick={toggleVisibility} className="hideButton">{props.closeButtonLabel}</button>
       </div>
     </div>
   )
