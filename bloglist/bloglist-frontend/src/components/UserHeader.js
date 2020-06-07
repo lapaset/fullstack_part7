@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { logoutUser } from '../reducers/userReducer'
+import { logoutUser } from '../reducers/loginReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
 const UserHeader = ({ user }) => {

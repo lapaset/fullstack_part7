@@ -22,3 +22,7 @@
 ul {
   list-style: none;
 }
+
+thead {
+  font-weight: bold;
+}

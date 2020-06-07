@@ -4,11 +4,11 @@ import { setErrorMessage } from '../reducers/errorMessageReducer'
 
 const blogReducer = (state = [], action) => {
   switch (action.type) {
-    case 'INIT':
+    case 'INIT_BLOGS':
       return action.blogs
-    case 'ADD':
+    case 'ADD_BLOG':
       return [...state, action.newBlog]
-    case 'LIKE': {
+    case 'LIKE_BLOG': {
       const id = action.blog.id
       const blogToChange = state.find(b => b.id === id)
       const changedBlog = {
@@ -18,7 +18,7 @@ const blogReducer = (state = [], action) => {
       return state
         .map(b => b.id !== id ? b : changedBlog)
     }
-    case 'DELETE': {
+    case 'DELETE_BLOG': {
       const id = action.blog.id
       return state.filter(b => b.id !== id)
     }
@@ -32,7 +32,7 @@ export const initBlogs = () => {
     const blogs = await blogService.getAll()
 
     dispatch({
-      type: 'INIT',
+      type: 'INIT_BLOGS',
       blogs
     })
   }
@@ -44,7 +44,7 @@ export const addBlog = blog => {
       const newBlog = await blogService.createBlog(blog)
 
       dispatch({
-        type: 'ADD',
+        type: 'ADD_BLOG',
         newBlog
       })
 
@@ -73,7 +73,7 @@ export const likeBlog = blog => {
       })
 
       dispatch({
-        type: 'LIKE',
+        type: 'LIKE_BLOG',
         blog: updatedBlog
       })
 
@@ -90,7 +90,7 @@ export const deleteBlog = blog => {
       await blogService.deleteBlog(blog.id)
 
       dispatch({
-        type: 'DELETE',
+        type: 'DELETE_BLOG',
         blog
       })
       

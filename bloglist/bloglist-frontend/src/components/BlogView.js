@@ -4,7 +4,7 @@ import CreateBlogForm from './CreateBlogForm'
 import Togglable from './Togglable'
 import UserHeader from './UserHeader'
 
-const UserView = ({ user, createFormRef }) => {
+const BlogView = ({ user, createFormRef }) => {
 
     const createForm = () => (
       <Togglable
@@ -29,4 +29,4 @@ const UserView = ({ user, createFormRef }) => {
     </div>
 )}
 
-export default UserView
+export default BlogView

@@ -3,7 +3,7 @@ import blogService from '../services/blogs'
 import { setNotification } from './notificationReducer'
 import { setErrorMessage } from './errorMessageReducer'
 
-const userReducer = (state = null, action) => {
+const loginReducer = (state = null, action) => {
   switch (action.type) {
     case 'LOGIN':
       return action.newUser
@@ -14,7 +14,7 @@ const userReducer = (state = null, action) => {
   }
 }
 
-export const loginUser = user => {
+export const loginUser = (user, notify) => {
   return async dispatch => {
     try {
       const newUser = await loginService.login(user)
@@ -26,8 +26,9 @@ export const loginUser = user => {
 
       window.localStorage.setItem('loggedBloglistUser', JSON.stringify(user))
       blogService.setToken(newUser.token)
-
-      dispatch(setNotification(`Logged in as ${user.username}`))
+      
+      if (notify)
+        dispatch(setNotification(`Logged in as ${user.username}`))
   
     } catch {
       dispatch(setErrorMessage('Invalid username or password'))
@@ -41,4 +42,4 @@ export const logoutUser = () => {
   }
 }
 
-export default userReducer
+export default loginReducer

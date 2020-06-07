@@ -1,16 +1,45 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import UserView from './components/UserView'
+import { BrowserRouter as Router,
+  Switch, Route, Link, useParams } from "react-router-dom"
+
+import BlogView from './components/BlogView'
 import LoginForm from './components/LoginForm'
 import ErrorField from './components/ErrorField'
 import NotificationField from './components/NotificationField'
-import blogService from './services/blogs'
-import { setNotification } from './reducers/notificationReducer'
+import Users from './components/Users'
+
 import { initBlogs } from './reducers/blogReducer'
-import { loginUser, logoutUser } from './reducers/userReducer'
+import { loginUser } from './reducers/loginReducer'
+import { initUsers } from './reducers/usersReducer'
+
+
+const User = ({ users }) => {
+  const id = useParams().id
+  const user = users.find(u => u.id === id)
+
+  return user
+    ? <div>
+        <h2>{user.name}</h2>
+        <h3>added blogs</h3>
+        <ul>
+          {user.blogs.map(b =>
+            <li key={b.id}>{b.title}</li>)}
+        </ul>
+      </div>
+    : null
+}
+
+const SingleBlog = () => {
+  return <div>Single blog</div>
+}
 
 const App = () => {
-  const user = useSelector(s => s.user)
+  const padding = {
+    padding: 5
+  }
+
+  const store = useSelector(s => s)
 
   const dispatch = useDispatch()
 
@@ -19,43 +48,55 @@ const App = () => {
   }, [dispatch])
 
   useEffect(() => {
+    dispatch(initUsers())
+  }, [dispatch])
+
+  useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
     if (loggedUserJSON) {
       const userToLogIn = JSON.parse(loggedUserJSON)
-      dispatch(loginUser(userToLogIn))
-      blogService.setToken(userToLogIn.token)
+      dispatch(loginUser(userToLogIn, false))
       console.log('user set at restart:', userToLogIn)
     }
   }, [dispatch])
-  
-  const handleLogout = async event => {
-    event.preventDefault()
-
-    window.localStorage.removeItem('loggedBloglistUser')
-    dispatch(logoutUser())
-    dispatch(setNotification('Logged out'))
-  }
 
   const createFormRef = React.createRef()
 
   return (
-    <main>
+    <Router>
+      
+      <div>
+        <Link style={padding} to="/">blogs</Link>
+        <Link style={padding} to="/users">users</Link>
+      </div>
+
       <h1>Bloglist</h1>
 
-      {console.log('rendering start')}
       <ErrorField />
       <NotificationField />
 
-      {user === null
-        ? <LoginForm />
-        : <UserView
-            user={user}
-            handleLogout={handleLogout}
-            createFormRef={createFormRef}  
-          />
-      }
-      {console.log('rendering end')}
-    </main>
+      <Switch>
+        <Route path="/blogs/:id">
+          <SingleBlog blogs={store.blogs}/>
+        </Route>
+        <Route path="/users/:id">
+          <User users={store.users} />
+        </Route>
+        <Route path="/users">
+          <Users />
+        </Route>
+        <Route path="/">
+          {store.user === null
+            ? <LoginForm />
+            : <BlogView
+                user={store.user}
+                createFormRef={createFormRef}  
+              />
+          }
+        </Route>
+      </Switch>
+
+    </Router>
   )
 }
 
