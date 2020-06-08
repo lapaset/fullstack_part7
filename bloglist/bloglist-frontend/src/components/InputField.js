@@ -1,9 +1,9 @@
 import React from 'react'
 
-const InputField = ({ id, type, name, value, onChange }) => (
+const InputField = ({ id, field, text }) => (
   <div>
-    {name}:
-    <input id ={id} type={type} name={name} value={value} onChange={onChange} />
+    {text}
+    <input {...field} id={id} />
   </div>
 )
 

@@ -1,47 +1,40 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 import { useHistory } from 'react-router-dom'
 import InputField from './InputField'
 import { loginUser } from '../reducers/loginReducer'
+import { useField } from '../hooks/hooks'
 
 const LoginForm = () => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const { reset: resetUsername, ...username } = useField('text')
+  const { reset: resetPassword, ...password } = useField('password')
 
   const history = useHistory()
   const dispatch = useDispatch()
-
-  const handleUsernameChange = ({ target }) => setUsername(target.value)
-  const handlePasswordChange = ({ target }) => setPassword(target.value)
   
   const handleSubmit = event => {
     event.preventDefault()
 
     dispatch(loginUser({
-      username, password,
+      username: username.value,
+      password: password.value,
     }, true))
 
     history.push('/')
-    setUsername('')
-    setPassword('')
   }
 
   return (
   <form onSubmit={handleSubmit}>
     <h2>Log in</h2>
-    <InputField
+    <InputField 
       id="username"
-      type="text"
-      name="Username"
-      value={username}
-      onChange={handleUsernameChange}
+      field={username}
+      text="Username:"
     />
-    <InputField
+    <InputField 
       id="password"
-      type="password"
-      name="Password"
-      value={password}
-      onChange={handlePasswordChange}
+      field={password}
+      text="Password:"
     />
     <button id="login-button" type="submit">login</button>
   </form>

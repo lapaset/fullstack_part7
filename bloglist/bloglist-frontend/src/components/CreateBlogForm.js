@@ -1,12 +1,17 @@
-import React, { useState } from 'react'
+import React from 'react'
 import InputField from './InputField'
 import { useDispatch } from 'react-redux'
 import { addBlog } from '../reducers/blogReducer'
+import { useField } from '../hooks/hooks'
+
+
+//next up reset the fields
+
 
 const CreateBlogForm = () => {
-    const [title, setTitle] = useState('')
-    const [author, setAuthor] = useState('')
-    const [url, setUrl] = useState('')
+    const { reset: resetTitle, ...title }  = useField('text')
+    const { reset: resetAuthor, ...author } = useField('text')
+    const { reset: resetUrl, ...url } = useField('text')
 
     const dispatch = useDispatch()
 
@@ -14,47 +19,36 @@ const CreateBlogForm = () => {
       event.preventDefault()
   
       const blog = {
-        title: title,
-        author: author,
-        url: url
+        title: title.value,
+        author: author.value,
+        url: url.value
       }
 
-      setTitle('')
-      setAuthor('')
-      setUrl('')
-
       dispatch(addBlog(blog))
-      
-    }
 
-    const handleTitleChange = ({ target }) => setTitle(target.value)
-    const handleAuthorChange = ({ target }) => setAuthor(target.value)
-    const handleUrlChange = ({ target }) => setUrl(target.value)
+      resetTitle()
+      resetAuthor()
+      resetUrl()
+    }
   
     return (
       <form onSubmit={handleCreate} className="createBlogForm">
         <h2>Create new</h2>
         <InputField
           id="title"
-          type="text"
-          name="Title"
-          value={title}
-          onChange={handleTitleChange} 
+          field={title}
+          text="Title:" 
         />
         <InputField
           id="author"
-          type="text"
-          name="Author"
-          value={author}
-          onChange={handleAuthorChange}
+          field={author}
+          text="Author:" 
         />
         <InputField
           id="url"
-          type="text"
-          name="Url"
-          value={url}
-          onChange={handleUrlChange}
-        />  
+          field={url}
+          text="Url:" 
+        />
         <button id="create-blog-button" type="submit">create</button>
       </form>
 )}
