@@ -1,4 +1,5 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 import ListOfBlogs from './ListOfBlogs'
 import CreateBlogForm from './CreateBlogForm'
 import Togglable from './Togglable'
@@ -15,12 +16,13 @@ const BlogView = ({ user, createFormRef }) => {
       </Togglable>
     )
 
+    const blogs = useSelector(s => s.blogs)
+
     return (
     <div>
       {createForm()}
-      
-      <ListOfBlogs
-        user={user} />
+      <h2>Blogs</h2>
+      <ListOfBlogs blogs={blogs} />
     </div>
 )}
 
