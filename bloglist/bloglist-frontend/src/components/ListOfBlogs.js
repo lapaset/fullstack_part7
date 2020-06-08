@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Table } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
-//import { likeBlog, deleteBlog } from '../reducers/blogReducer'
 
-const ListOfBlogs = ({ id, user }) => {
+const ListOfBlogs = () => {
 
   /*const dispatch = useDispatch()
 
@@ -12,19 +12,23 @@ const ListOfBlogs = ({ id, user }) => {
   }*/
 
   const blogs = useSelector(s => s.blogs)
-  console.log(blogs)
+
   return (
     <main>
       <h2>Blogs</h2>
-      <ul id={id}>
+      <Table striped>
+        <tbody>
         {blogs
           .sort((a, b) => b.likes - a.likes)
           .map(b =>
-            <li key={b.id}>
-              <Link to={`/blogs/${b.id}`}>{b.title} by {b.author}</Link>
-            </li>
+            <tr key={b.id}>
+              <td>
+                <Link to={`/blogs/${b.id}`}>{b.title} by {b.author}</Link>
+              </td>
+            </tr>
           )}
-      </ul>
+          </tbody>
+      </Table>
     </main>
 )}
 

@@ -56,7 +56,7 @@ const App = () => {
   
 
   return (
-    <div>
+    <div className="container">
       <div className="nav">
         <Link style={padding} to="/">blogs</Link>
         <Link style={padding} to="/users">users</Link>

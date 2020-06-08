@@ -1,38 +1,8 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { likeBlog, commentBlog } from '../reducers/blogReducer'
-import { useField } from '../hooks/hooks'
-import shortid from 'shortid'
+import { likeBlog } from '../reducers/blogReducer'
+import Comments from './Comments'
 
-const Comments = ({ blog }) => {
-  const dispatch = useDispatch()
-
-  const { reset: resetComment, ...comment } = useField('text')
-
-  const handleSubmit = event => {
-    event.preventDefault()
-    dispatch(commentBlog(blog, comment.value))
-    resetComment()
-  }
-
-  return (
-    <div>
-      <h3>comments</h3>
-      <form onSubmit={handleSubmit}>
-        <input { ...comment } />
-        <button type="submit">add comment</button>
-      </form>
-      {blog
-        ? <ul>
-            {blog.comments.map(c =>
-              <li key={shortid.generate()}>{c}</li>
-            )}
-          </ul>
-        : null
-      }
-    </div>
-  )
-}
 
 const Blog = ({ blog }) => {
 

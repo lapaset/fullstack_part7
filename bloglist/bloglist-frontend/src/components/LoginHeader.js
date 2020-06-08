@@ -16,10 +16,10 @@ const LoginHeader = ({ user, style }) => {
   }
   
   return user
-    ? <span>
+    ? <div>
         {user.name} logged in
         <button onClick={handleLogout}>Log out</button>
-      </span>
+      </div>
     : <Link style={style} to="/login">login</Link>
 }
 

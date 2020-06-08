@@ -20,7 +20,6 @@ const BlogView = ({ user, createFormRef }) => {
       {createForm()}
       
       <ListOfBlogs
-        id="user-blogs"
         user={user} />
     </div>
 )}
