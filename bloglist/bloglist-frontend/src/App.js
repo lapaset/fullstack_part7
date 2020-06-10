@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useRouteMatch,
-  Switch, Route, Link } from "react-router-dom"
+  Switch, Route } from "react-router-dom"
 
 import BlogView from './components/BlogView'
 import LoginForm from './components/LoginForm'
@@ -10,17 +10,14 @@ import NotificationField from './components/NotificationField'
 import Users from './components/Users'
 import Blog from './components/Blog'
 import User from './components/User'
-import LoginHeader from './components/LoginHeader'
+import Header from './components/Header'
+import { Page } from './components/styledComponents'
 
 import { initBlogs } from './reducers/blogReducer'
 import { loginUser } from './reducers/loginReducer'
 import { initUsers } from './reducers/usersReducer'
 
 const App = () => {
-  const padding = {
-    padding: 5
-  }
-
   const store = useSelector(s => s)
 
   const dispatch = useDispatch()
@@ -56,12 +53,8 @@ const App = () => {
   
 
   return (
-    <div className="container">
-      <div className="nav">
-        <Link style={padding} to="/">blogs</Link>
-        <Link style={padding} to="/users">users</Link>
-        <LoginHeader style={padding} user={store.user} />
-      </div>
+    <Page>
+      <Header user={store.user} />
 
       <h1>Bloglist</h1>
 
@@ -91,7 +84,7 @@ const App = () => {
           }
         </Route>
       </Switch>
-    </div>
+    </Page>
   )
 }
 

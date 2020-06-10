@@ -1,6 +1,6 @@
 import React from 'react'
 import shortid from 'shortid'
-import { Table } from 'react-bootstrap'
+import { Table } from './styledComponents'
 import CommentForm from './CommentForm'
 
 const CommentTable = ({ blog }) => (

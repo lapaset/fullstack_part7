@@ -2,6 +2,7 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { likeBlog } from '../reducers/blogReducer'
 import Comments from './Comments'
+import { Button } from './styledComponents'
 
 
 const Blog = ({ blog }) => {
@@ -23,7 +24,7 @@ const Blog = ({ blog }) => {
   const likeButton = () => {
     const loggedUserJSON = window.localStorage.getItem('loggedBloglistUser')
     return loggedUserJSON
-    ? <button onClick={() => handleLike(blog)}>like</button>
+    ? <Button onClick={() => handleLike(blog)}>like</Button>
     : null
   }
 

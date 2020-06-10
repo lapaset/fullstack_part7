@@ -1,9 +1,10 @@
 import React from 'react'
+import { Input } from './styledComponents'
 
 const InputField = ({ id, field, text }) => (
   <div>
-    {text}
-    <input {...field} id={id} />
+    {text}<br />
+    <Input {...field} id={id} />
   </div>
 )
 

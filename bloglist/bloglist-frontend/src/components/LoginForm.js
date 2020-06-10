@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom'
 import InputField from './InputField'
 import { loginUser } from '../reducers/loginReducer'
 import { useField } from '../hooks/hooks'
+import { Button } from './styledComponents'
 
 const LoginForm = () => {
   const { reset: resetUsername, ...username } = useField('text')
@@ -36,7 +37,7 @@ const LoginForm = () => {
       field={password}
       text="Password:"
     />
-    <button id="login-button" type="submit">login</button>
+    <Button id="login-button" type="submit">login</Button>
   </form>
 )}
 

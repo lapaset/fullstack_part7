@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logoutUser } from '../reducers/loginReducer'
 import { setNotification } from '../reducers/notificationReducer'
+import { LogoutButton } from './styledComponents'
 
 const LoginHeader = ({ user, style }) => {
   const dispatch = useDispatch()
@@ -18,7 +19,7 @@ const LoginHeader = ({ user, style }) => {
   return user
     ? <div>
         {user.name} logged in
-        <button onClick={handleLogout}>Log out</button>
+        <LogoutButton onClick={handleLogout}>Log out</LogoutButton>
       </div>
     : <Link style={style} to="/login">login</Link>
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Table } from 'react-bootstrap'
+import { Table } from './styledComponents'
 
 const Users = () => {
   const users = useSelector(s => s.users)

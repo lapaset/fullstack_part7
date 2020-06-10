@@ -1,37 +1,8 @@
-.errorField {
-  background: red;
-  color: white;
-  border-style: double;
-  border-width: 3px 0px;
-  padding: 10px;
+a {
+  text-decoration: none;
 }
 
-.notificationField {
-  color: darkcyan;
-  border-style: solid;
-  border-width: 3px 0px;
-  padding: 10px;
-}
-
-li {
-  border-style: solid;
-  border-width: 1px 0px 0px 0px;
-  padding: 5px 0px;
-}
-
-ul {
-  list-style: none;
-}
-
-thead {
-  font-weight: bold;
-}
-
-.nav {
-  padding: 5px;
-  background-color: thistle;
-}
-
-button {
-  margin: 1px 5px;
+a:hover {
+  color: tomato;
+  text-decoration: underline;
 }

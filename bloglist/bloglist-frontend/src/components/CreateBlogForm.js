@@ -3,6 +3,7 @@ import InputField from './InputField'
 import { useDispatch } from 'react-redux'
 import { addBlog } from '../reducers/blogReducer'
 import { useField } from '../hooks/hooks'
+import { Button } from './styledComponents'
 
 
 //next up reset the fields
@@ -49,7 +50,7 @@ const CreateBlogForm = () => {
           field={url}
           text="Url:" 
         />
-        <button id="create-blog-button" type="submit">create</button>
+        <Button id="create-blog-button" type="submit">create</Button>
       </form>
 )}
 
